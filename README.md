@@ -7,7 +7,7 @@ It is winter and you are trying to free summer.
 
 
 ### Development Log
-*11-26-14
+*11-26-14*
 
 Grant was asleep and I was working at home. Jack said that a while ago I told him that if he wanted to be able to make games he needed to know how to read. Now that he knows how to read, he wants me to teach him to program. I told him it wasn't quite that easy, but that we could work on a game together. 
 
