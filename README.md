@@ -32,5 +32,6 @@ I asked him what he wanted his game to be and here are my notes from what he sai
 - Find stuff thats moving then unlock them in your farmyard
 
 **Scenery**
-- e walking by
--  areas on the levels
+- people walking by
+
+**Other areas on the levels**
