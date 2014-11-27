@@ -49,6 +49,8 @@ I told him we were done with the first step. He asked how many steps there were.
 - **Step 1** - Intro Screen
 - **Step 2** - Draw the car
 - **Step 3** - Animate the car
-- **Step 4** - Pick a Physics Engine ([PhysicsJS](https://github.com/wellcaffeinated/PhysicsJS))
+- **Step 4** - Pick a Physics Engine - [Phaser](https://github.com/photonstorm/phaser)
+- **Step 5** - Create game page with hello world example
+- **Step 6** - Find car game example to use (found this [great tutorial!](http://www.inkfood.com/create-a-car-with-phaser/)
 
 Worked on animating the car and separating it into pieces in Photoshop.
