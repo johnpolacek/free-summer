@@ -1,3 +1,4 @@
+// Source code from: http://www.inkfood.com/create-a-car-with-phaser/
 
 var game, cursor, i,
 	groundGroup,CG_level,jump,
@@ -5,6 +6,7 @@ var game, cursor, i,
 	line,target,mousePointer,mouseConstraint,
 	springsArray  = [],
 	constraintsArray = [],
+	maxVelocity = 40,
 	w = window.innerWidth,
 	h = window.innerHeight;
 
@@ -207,16 +209,16 @@ function addCar() {
 function updateCar() {
 	game.physics.p2.walls.bottom.velocity[0] = wheel_back.body.angularVelocity+(carBody.position.x-(w/2-w/4+100))/1000;
 	
-	if (cursors.left.isDown) {
-		wheel_back.body.angularVelocity = -40;
-		wheel_front.body.angularVelocity = -40;
+	if (cursors.left.isDown && wheel_back.body.angularVelocity > 0) {
+		wheel_back.body.angularVelocity += -1;
+		wheel_front.body.angularVelocity += -1;
 		
 		game.physics.p2.walls.bottom.velocity[0] = wheel_back.body.angularVelocity+(carBody.position.x-(w/2-w/4+100))/50;
 	}
 	
-	if (cursors.right.isDown) {
-		wheel_back.body.angularVelocity = +40;
-		wheel_front.body.angularVelocity = +40;
+	if (cursors.right.isDown && wheel_back.body.angularVelocity < maxVelocity) {
+		wheel_back.body.angularVelocity += 1;
+		wheel_front.body.angularVelocity += 1;
 		
 		game.physics.p2.walls.bottom.velocity[0] = wheel_back.body.angularVelocity+(carBody.position.x-(w/2-w/4))/50;
 	}
