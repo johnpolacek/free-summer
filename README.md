@@ -46,7 +46,7 @@ When we finished the intro screen, Jack asked me “Are we finished??”
 
 I told him we were done with the first step. He asked how many steps there were. I said about a thousand. He was unfazed by this and excited to start the next step. Here are the steps we have so far:
 
-- **Step 1** - Intro Screen
+- **Step 1** - Intro Screen (Jack picked the font)
 - **Step 2** - Draw the car
 - **Step 3** - Animate the car
 - **Step 4** - Pick a Physics Engine - [Phaser](https://github.com/photonstorm/phaser)
@@ -54,3 +54,12 @@ I told him we were done with the first step. He asked how many steps there were.
 - **Step 6** - Find car game example to use (found this [great tutorial!](http://www.inkfood.com/create-a-car-with-phaser/)
 
 Worked on animating the car and separating it into pieces in Photoshop.
+
+--
+
+###*11-27-14*
+
+- **Step 7** - Bring Jack’s car drawing into the game
+- **Step 8** - Jack draw preview and control buttons
+- **Step 9** - Add preview button to intro screen
+- **Step 10** - Add button controls for touch devices
