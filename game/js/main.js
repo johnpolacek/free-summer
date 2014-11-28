@@ -6,7 +6,7 @@ var game, cursor, i,
 	line,target,mousePointer,mouseConstraint,
 	springsArray  = [],
 	constraintsArray = [],
-	maxVelocity = 40,
+	maxVelocity = 40,minVelocity = -5;
 	w = window.innerWidth,
 	h = window.innerHeight;
 
@@ -54,6 +54,9 @@ function initPhaserP2_debug() {
 	game.load.crossOrigin = true;
 	game.load.image('pixel', 'http://i.imgur.com/AwfibOk.png');
 	game.load.image('spring', 'http://i.imgur.com/GiqTEwo.png');
+	game.load.image('car_body', './img/game/car_body.png');
+	game.load.image('wheel_back', './img/game/wheel_back.png');
+	game.load.image('wheel_front', './img/game/wheel_front.png');
 	
 	line = new Phaser.Line(0, 0, 200, 200);
 	
@@ -88,7 +91,7 @@ function stopDrag(pointer) {
 
 function addPhaserP2_debug(P2_object,type) {
 	if(type == "spring") {
-		var springSprite = game.add.tileSprite(0, 0, 24, (P2_object.restLength * 20), 'spring');
+		var springSprite = game.add.tileSprite(0, 0, 24, (P2_object.restLength * 20));
 		springSprite.anchor.setTo(0.5, 0);
 		springSprite.rest = 0;
 		
@@ -161,45 +164,42 @@ function initCar() {
 }
 
 function addCar() {
-	carBody = game.add.sprite(100, 100); //CARBODY
-	wheel_front = game.add.sprite(140, 130); //FRONT WHEEL
-	wheel_back = game.add.sprite(60, 130); //BACK WHEEL
+
+	carBody = game.add.tileSprite(100, 100, 210, 54,'car_body');
+	wheel_front = game.add.sprite(140, 130, 'wheel_front');
+	wheel_back = game.add.sprite(60, 130, 'wheel_back');
 	CG_car = game.physics.p2.createCollisionGroup(); //CAR GROUP
 	
 	game.physics.p2.updateBoundsCollisionGroup(); //UPDATE COLLISION BOUND FOR GROUPS
 	
 	game.physics.p2.enable([wheel_front, wheel_back,carBody]);
 
-		carBody.body.setRectangle(100,30);
-		carBody.body.debug = true;
+		carBody.body.setRectangle(160,50);
 		carBody.body.mass = 1;
 		carBody.body.setCollisionGroup(CG_car);
 	
-	
 		wheel_front.body.setCircle(20);
-		wheel_front.body.debug = true;
 		wheel_front.body.mass = 1;
 		wheel_front.body.setCollisionGroup(CG_car);
 	
 		wheel_back.body.setCircle(20);
-		wheel_back.body.debug = true;
 		wheel_back.body.mass = 1;
 		wheel_back.body.setCollisionGroup(CG_car);
 	
 	// Spring(world, bodyA, bodyB, restLength, stiffness, damping, worldA, worldB, localA, localB)
-	var spring = game.physics.p2.createSpring(carBody,wheel_front, 70, 150, 50,null,null,[30,0],null);
+	var spring = game.physics.p2.createSpring(carBody,wheel_front, 70, 150, 50,null,null,[10,0],null);
 	addPhaserP2_debug(spring,"spring");
 	
-	var spring_1 = game.physics.p2.createSpring(carBody,wheel_back, 70, 150,50,null,null,[-30,0],null);
+	var spring_1 = game.physics.p2.createSpring(carBody,wheel_back, 70, 150,50,null,null,[-10,0],null);
 	addPhaserP2_debug(spring_1,"spring");
 		
-	var constraint = game.physics.p2.createPrismaticConstraint(carBody,wheel_front, false,[30,0],[0,0],[0,1]);
+	var constraint = game.physics.p2.createPrismaticConstraint(carBody,wheel_front, false,[50,0],[0,0],[0,1]);
 	addPhaserP2_debug(constraint,"prismaticConstraint");
 	constraint.lowerLimitEnabled=constraint.upperLimitEnabled = true;
 	constraint.upperLimit = -1;
 	constraint.lowerLimit = -8;
 	
-	var constraint_1 = game.physics.p2.createPrismaticConstraint(carBody,wheel_back, false,[-30,0],[0,0],[0,1]);
+	var constraint_1 = game.physics.p2.createPrismaticConstraint(carBody,wheel_back, false,[-50,0],[0,0],[0,1]);
 	addPhaserP2_debug(constraint_1,"prismaticConstraint");
 	constraint_1.lowerLimitEnabled=constraint_1.upperLimitEnabled = true;
 	constraint_1.upperLimit = -1;
@@ -209,7 +209,7 @@ function addCar() {
 function updateCar() {
 	game.physics.p2.walls.bottom.velocity[0] = wheel_back.body.angularVelocity+(carBody.position.x-(w/2-w/4+100))/1000;
 	
-	if (cursors.left.isDown && wheel_back.body.angularVelocity > 0) {
+	if (cursors.left.isDown && wheel_back.body.angularVelocity > minVelocity) {
 		wheel_back.body.angularVelocity += -1;
 		wheel_front.body.angularVelocity += -1;
 		

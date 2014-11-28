@@ -15,10 +15,10 @@ Grant was asleep and I was working at home. Jack said that a while ago I told hi
 I asked him what he wanted his game to be and here are my notes from what he said. He likes the Blocky Roads game so from what I can tell, that is his inspiration.
 
 **Car**
-- You can decorate
+- You can decorate it
 - Drive around farmyard
 - Press a button to make it go
-- Only go straight. Can go backwards
+- Only go straight.
 - The car is named Syndro
 
 **Obstacles**
@@ -26,7 +26,7 @@ I asked him what he wanted his game to be and here are my notes from what he sai
 - Hot lava
 - Ramps
 - Parachutes if the car explodes
-- Other cars are damaged
+- Other cars that are damaged
 
 **Buildings**
 - You can click on a building to park on it
