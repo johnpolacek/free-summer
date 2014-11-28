@@ -6,6 +6,8 @@ var game, cursor, i,
 	line,target,mousePointer,mouseConstraint,
 	springsArray  = [],
 	constraintsArray = [],
+	isAccelerating = false,
+	isBraking = false,
 	maxVelocity = 40,minVelocity = -5;
 	w = window.innerWidth,
 	h = window.innerHeight;
@@ -22,16 +24,12 @@ function create() {
 	
 	// adding P2 physics to the game
 	game.physics.startSystem(Phaser.Physics.P2JS);
-	// setting gravity
 	game.physics.p2.gravity.y = 250;
-	
 	game.physics.p2.restitution = 0.4;
-	
-	game.stage.backgroundColor = '#DDDDDD';
-	
-	// setting gravity
 	game.physics.p2.gravity.y = 250;
 	game.physics.p2.friction= 5;
+
+	game.stage.backgroundColor = '#DDDDDD';
 	
 	cursors = game.input.keyboard.createCursorKeys();
 	
@@ -42,7 +40,6 @@ function create() {
 
 function update() {
 	updatePhaserP2_debug();
-	
 	updateCar();
 	updateJump();
 }
@@ -52,11 +49,12 @@ function update() {
 
 function initPhaserP2_debug() {
 	game.load.crossOrigin = true;
-	game.load.image('pixel', 'http://i.imgur.com/AwfibOk.png');
-	game.load.image('spring', 'http://i.imgur.com/GiqTEwo.png');
-	game.load.image('car_body', './img/game/car_body.png');
-	game.load.image('wheel_back', './img/game/wheel_back.png');
-	game.load.image('wheel_front', './img/game/wheel_front.png');
+	game.load.image('pixel', './img/game/pixel.png');
+	game.load.image('car_body', './img/game/car/car_body.png');
+	game.load.image('wheel_back', './img/game/car/wheel_back.png');
+	game.load.image('wheel_front', './img/game/car/wheel_front.png');
+	game.load.image('button_go', './img/game/controls/go.png');
+	game.load.image('button_back', './img/game/controls/back.png');
 	
 	line = new Phaser.Line(0, 0, 200, 200);
 	
@@ -77,7 +75,6 @@ function drag() {
 
 function click(pointer) {
 	var bodies = game.physics.p2.hitTest(pointer.position);
-
 	if (bodies.length !== 0){
 		target = bodies[0];
 		mouseConstraint = game.physics.p2.createRevoluteConstraint(mousePointer, [0,0],target, [ 0, 0 ],100);
@@ -174,17 +171,17 @@ function addCar() {
 	
 	game.physics.p2.enable([wheel_front, wheel_back,carBody]);
 
-		carBody.body.setRectangle(160,50);
-		carBody.body.mass = 1;
-		carBody.body.setCollisionGroup(CG_car);
-	
-		wheel_front.body.setCircle(20);
-		wheel_front.body.mass = 1;
-		wheel_front.body.setCollisionGroup(CG_car);
-	
-		wheel_back.body.setCircle(20);
-		wheel_back.body.mass = 1;
-		wheel_back.body.setCollisionGroup(CG_car);
+	carBody.body.setRectangle(160,50);
+	carBody.body.mass = 1;
+	carBody.body.setCollisionGroup(CG_car);
+
+	wheel_front.body.setCircle(20);
+	wheel_front.body.mass = 1;
+	wheel_front.body.setCollisionGroup(CG_car);
+
+	wheel_back.body.setCircle(20);
+	wheel_back.body.mass = 1;
+	wheel_back.body.setCollisionGroup(CG_car);
 	
 	// Spring(world, bodyA, bodyB, restLength, stiffness, damping, worldA, worldB, localA, localB)
 	var spring = game.physics.p2.createSpring(carBody,wheel_front, 70, 150, 50,null,null,[10,0],null);
@@ -209,25 +206,23 @@ function addCar() {
 function updateCar() {
 	game.physics.p2.walls.bottom.velocity[0] = wheel_back.body.angularVelocity+(carBody.position.x-(w/2-w/4+100))/1000;
 	
-	if (cursors.left.isDown && wheel_back.body.angularVelocity > minVelocity) {
+	if ((cursors.left.isDown || isBraking) && wheel_back.body.angularVelocity > minVelocity) {
 		wheel_back.body.angularVelocity += -1;
 		wheel_front.body.angularVelocity += -1;
-		
 		game.physics.p2.walls.bottom.velocity[0] = wheel_back.body.angularVelocity+(carBody.position.x-(w/2-w/4+100))/50;
 	}
 	
-	if (cursors.right.isDown && wheel_back.body.angularVelocity < maxVelocity) {
+	if ((cursors.right.isDown || isAccelerating) && wheel_back.body.angularVelocity < maxVelocity) {
 		wheel_back.body.angularVelocity += 1;
 		wheel_front.body.angularVelocity += 1;
-		
 		game.physics.p2.walls.bottom.velocity[0] = wheel_back.body.angularVelocity+(carBody.position.x-(w/2-w/4))/50;
 	}
-	
 }
 
 function initLevel() {
 	groundGroup = game.add.group();
 	addJump();
+	addControls();
 }
 
 function addJump(){
@@ -259,11 +254,9 @@ function addJump(){
 	wheel_back.body.setMaterial(spriteMaterial);
 		
 	var worldMaterial = game.physics.p2.createMaterial('worldMaterial',jump.body);
-
 	var contactMaterial = game.physics.p2.createContactMaterial(spriteMaterial, worldMaterial);
 
-	contactMaterial.friction = 0.5;     // Friction to use in the contact of these two materials.
-
+	contactMaterial.friction = 0.5; // Friction to use in the contact of these two materials.
 }
 
 function updateJump() {
@@ -273,4 +266,28 @@ function updateJump() {
 	if(jump.position.x < -200) {
 		jump.body.reset(w+200,(h-(Math.random()*40-20)));
 	}
+}
+
+function addControls() {
+	goButton = game.add.button(w-140, h-80, 'button_go', onGo, this, 2, 1, 0);
+	goButton.onInputDown.add(onGo, this);
+	goButton.onInputUp.add(onGoComplete, this);
+	backButton = game.add.button(w-250, h-65, 'button_back', onBack, this, 2, 1, 0);
+	backButton.onInputDown.add(onBack, this);
+	backButton.onInputUp.add(onBackComplete, this);
+}
+
+function onGo() {
+	isAccelerating = true;
+	isBraking = false;
+}
+function onGoComplete() {
+	isAccelerating = false;
+}
+function onBack() {
+	isAccelerating = false;
+	isBraking = true;
+}
+function onBackComplete() {
+	isBraking = false;
 }
