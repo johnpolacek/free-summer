@@ -50,13 +50,6 @@ My notes from Jack’s description of what he wanted his game to be (verbatim)
 **Scenery**
 - people walking by
 
-**Other areas on the levels**
-
-
---
-
-###*11-27-14*
-
 When we finished the intro screen, Jack asked me “Are we finished??”
 
 I told him we were done with the first step. He asked how many steps there were. I said about a thousand. He was unfazed by this and excited to start the next step. Here are the steps we have so far:
