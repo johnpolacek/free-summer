@@ -9,3 +9,5 @@ h1,h2,h3,h4,h5,h6 {
     text-align: center;
     padding-top: 2em; 
 }
+a {color: #000; text-decoration: none;}
+.link-text {border-bottom: solid 1px #999; }
