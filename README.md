@@ -17,7 +17,7 @@ I started asking him questions and taking notes from what he said. He likes the 
 
 We have made some progress and I want to share it out with my fellow devs who might want to do the same thing with their kids. <a href="http://johnpolacek.github.io/free-summer/">Play it here</a> and <a href="https://github.com/johnpolacek/free-summer">check out the project on Github</a>. Shoot, all you have to do is just replace the png graphics with your kid’s own drawings and you will be all set. The look on my son’s face when he could play the game he thought of, using his own hand drawn graphics, was UNBELIEVABLE! It is so much fun!
 
-Jack is providing all the drawings. He is giving all the direction on the game design (with some helpful suggestions of course). I just do what he tells me, while trying to teach him what it takes to implement his vision along the way.
+Jack is providing all the drawings and direction on the game design. I just do what he tells me, while trying to teach him what it takes to implement his vision along the way.
 
 Big thanks to <a href="http://www.photonstorm.com">Photon Storm</a>, the folks behind the <a href="http://phaser.io">Phaser HTML5 Mobile and Desktop game framework</a> without whom this would not be possible. And super big thanks to <a href="https://twitter.com/markusT_inkfood">Markus T</a> who published <a href="http://www.inkfood.com/create-a-car-with-phaser/">a fantastic tutorial</a> that gave me a huge jumpstart and is responsible for most of the code that is behind the game thus far.
 
