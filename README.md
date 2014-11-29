@@ -77,12 +77,13 @@ Worked on animating the car and separating it into pieces in Photoshop.
 - **Step 7** - Bring Jack’s car drawing into the game
 - **Step 8** - Jack draw preview and control buttons
 - **Step 9** - Add preview button to intro screen
+
+--
+
+###*11-28-14*
+
 - **Step 10** - Add button controls for touch devices
 - **Step 11** - Publish open source for testing and sharing
 - **Step 12** - Jack and Grant (little bro) test on mobile devices
 - **Step 13** - Jack draw more game elements
 - **Step 14** - Draw home screen icon
-
---
-
-###*11-28-14*
