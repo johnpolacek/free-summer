@@ -5,6 +5,8 @@ It is winter and you are trying to free summer.
 
 *A game by Jack and John Polacek*
 
+###*[Click Here To Play](http://johnpolacek.github.io/free-summer/)*
+
 A few years ago, I made a game called <a href="http://johnpolacek.com/matchtheletter/" title="Match The Letter Game">Match the Letter</a> help him with ABCs, and to learn a thing or two myself about app development. It’s still available on the <a href="https://play.google.com/store/apps/details?id=com.johnpolacek.matchtheletter" title="Match The Letter on Google Play">Google Play Store</a> (FREE and no annoying ads).
 
 A couple years later, he asked me to teach him to make a game. I told him he’d need to know how to code. And to do that, he needed to learn to read.
