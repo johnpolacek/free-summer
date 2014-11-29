@@ -162,7 +162,7 @@ function initCar() {
 
 function addCar() {
 
-	carBody = game.add.tileSprite(100, 100, 210, 54,'car_body');
+	carBody = game.add.sprite(100, 100, 'car_body');
 	wheel_front = game.add.sprite(140, 130, 'wheel_front');
 	wheel_back = game.add.sprite(60, 130, 'wheel_back');
 	CG_car = game.physics.p2.createCollisionGroup(); //CAR GROUP
