@@ -63,3 +63,7 @@ Worked on animating the car and separating it into pieces in Photoshop.
 - **Step 8** - Jack draw preview and control buttons
 - **Step 9** - Add preview button to intro screen
 - **Step 10** - Add button controls for touch devices
+- **Step 11** - Publish open source for testing and sharing
+- **Step 12** - Jack and Grant (little bro) test on mobile devices
+- **Step 13** - Jack draw more game elements
+- **Step 14** - Draw home screen icon
