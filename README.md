@@ -80,3 +80,9 @@ Worked on animating the car and separating it into pieces in Photoshop.
 - **Step 12** - Jack and Grant (little bro) test on mobile devices
 - **Step 13** - Jack draw more game elements
 - **Step 14** - Draw home screen icon
+
+--
+
+###*11-29-14*
+
+- **Step 15** - Open source [on Github](https://github.com/johnpolacek/free-summer)
