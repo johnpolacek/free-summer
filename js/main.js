@@ -56,6 +56,7 @@ function initPhaserP2_debug() {
 	game.load.image('button_go', './img/game/controls/go.png');
 	game.load.image('button_back', './img/game/controls/back.png');
 	game.load.image('ramp', './img/game/stuff/ramp.png');
+	game.load.image('barnyard', './img/game/stuff/barnyard.png');
 	
 	line = new Phaser.Line(0, 0, 200, 200);
 	
@@ -221,13 +222,18 @@ function updateCar() {
 }
 
 function initLevel() {
+	addBackground();
 	groundGroup = game.add.group();
 	addJump();
 	addControls();
 }
 
+function addBackground() {
+	barnyard = game.add.sprite(w - 640, h-263,'barnyard');
+}
+
 function addJump(){
-	var groundSegment = [[500,h],[700,h],[700,h-50]];
+	var groundSegment = [[300,h],[500,h],[700,h-50]];
 	
 	CG_level = game.physics.p2.createCollisionGroup(); //CAR GROUP
 	
@@ -266,7 +272,7 @@ function updateJump() {
 	jump.body.velocity.y = 0;
 	jump.body.velocity.x = wheel_back.body.angularVelocity*-10;
 	
-	if(jump.position.x < -200) {
+	if(jump.position.x < -w/2) {
 		jump.body.reset(w+200,(h-(Math.random()*40-20)));
 	}
 }
