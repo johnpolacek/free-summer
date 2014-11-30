@@ -55,6 +55,7 @@ function initPhaserP2_debug() {
 	game.load.image('wheel_front', './img/game/car/wheel_front.png');
 	game.load.image('button_go', './img/game/controls/go.png');
 	game.load.image('button_back', './img/game/controls/back.png');
+	game.load.image('ramp', './img/game/stuff/ramp.png');
 	
 	line = new Phaser.Line(0, 0, 200, 200);
 	
@@ -245,6 +246,8 @@ function addJump(){
 	jump.body.data.gravityScale = 0;
 	jump.body.collides(CG_car);
 	jump.body.collideWorldBounds = false;
+	jump.loadTexture('ramp');
+	jump.body.debug = false;
 	
 	wheel_front.body.collides(CG_level);
 	wheel_back.body.collides(CG_level);
