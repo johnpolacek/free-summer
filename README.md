@@ -86,3 +86,5 @@ Worked on animating the car and separating it into pieces in Photoshop.
 ###*11-29-14*
 
 - **Step 15** - Open source [on Github](https://github.com/johnpolacek/free-summer)
+- **Step 16** - Add Jack’s ramp graphic
+- **Step 17** - Add barnyard background
