@@ -1,9 +1,10 @@
-Free Summer
-===========
+#![Free Summer](https://github.com/johnpolacek/free-summer/blob/master/img/intro/free-summer.png)
 It is winter and you are trying to free summer.
 -----------------------------------------------
 
 *A game by Jack and John Polacek*
+
+![](https://github.com/johnpolacek/free-summer/blob/master/img/intro/car-animation.gif)
 
 ###*[Click Here To Play](http://johnpolacek.github.io/free-summer/)*
 
@@ -20,6 +21,8 @@ We have made some progress and I want to share it out with my fellow devs who mi
 Jack is providing all the drawings and direction on the game design. I just do what he tells me, while trying to teach him what it takes to implement his vision along the way.
 
 Big thanks to <a href="http://www.photonstorm.com">Photon Storm</a>, the folks behind the <a href="http://phaser.io">Phaser HTML5 Mobile and Desktop game framework</a> without whom this would not be possible. And super big thanks to <a href="https://twitter.com/markusT_inkfood">Markus T</a> who published <a href="http://www.inkfood.com/create-a-car-with-phaser/">a fantastic tutorial</a> that gave me a huge jumpstart and is responsible for most of the code that is behind the game thus far.
+
+![](https://github.com/johnpolacek/free-summer/blob/master/img/intro/jack-drawing.png)
 
 I will keep working on it as long as he stays interested. No promises on how far we will get, but so far it is so fun to work with him on it! (And we even get his 2-year-old brother in on the action play-testing on his own tablet)
 
