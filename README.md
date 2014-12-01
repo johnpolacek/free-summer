@@ -1,6 +1,5 @@
-#![Free Summer](https://github.com/johnpolacek/free-summer/blob/master/img/intro/free-summer.png)
-It is winter and you are trying to free summer.
------------------------------------------------
+![Free Summer](https://github.com/johnpolacek/free-summer/blob/master/img/intro/free-summer.png)
+###It is winter and you are trying to free summer.
 
 *A game by Jack and John Polacek*
 
