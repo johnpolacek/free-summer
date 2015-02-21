@@ -89,6 +89,9 @@ function stopDrag(pointer) {
 function addPhaserP2(P2_object,type) {
 	var point_A,point_B;
 
+	if (typeof P2_object.localAnchorA == 'undefined') P2_object.localAnchorA = [0,0];
+	if (typeof P2_object.localAnchorB == 'undefined') P2_object.localAnchorB = [0,0];
+
 	if(type == "spring") {
 		var springSprite = game.add.tileSprite(0, 0, 24, (P2_object.restLength * 20));
 		springSprite.anchor.setTo(0.5, 0);
@@ -97,8 +100,8 @@ function addPhaserP2(P2_object,type) {
 		point_A = game.add.sprite((P2_object.localAnchorA[0]*20), (P2_object.localAnchorA[1]*20)); //DUMMY
 		point_B = game.add.sprite((P2_object.localAnchorB[0]*20), (P2_object.localAnchorB[1]*20)); //DUMMY
 		
-		P2_object.bodyA.parent.sprite.addChild(point_A);
-		P2_object.bodyB.parent.sprite.addChild(point_B);
+		P2_object.data.bodyA.parent.sprite.addChild(point_A);
+		P2_object.data.bodyB.parent.sprite.addChild(point_B);
 
 		game.physics.p2.enable([point_A,point_B]);
 
@@ -258,6 +261,7 @@ function addObstacles(){
 	jump.body.debug = false;
 
 	lava = groundGroup.create(0,0);
+	lava.anchor.setTo(0.5, 0.5);
 	
 	game.physics.p2.enable(lava,true, true);
 	lava.body.clearShapes();
@@ -270,7 +274,7 @@ function addObstacles(){
 	lava.body.collides(CG_car);
 	lava.body.collideWorldBounds = false;
 	lava.loadTexture('lava');
-	lava.anchor.setTo(0.5, .9);
+	lava.anchor.setTo(0.5, 0.9);
 	lava.body.debug = false;
 	
 	wheel_front.body.collides(CG_level);
