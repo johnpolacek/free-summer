@@ -50,8 +50,8 @@ function initPhaserP2() {
 	game.load.image('car_body', './img/game/car/car_body.png');
 	game.load.image('wheel_back', './img/game/car/wheel_back.png');
 	game.load.image('wheel_front', './img/game/car/wheel_front.png');
-	game.load.image('button_go', './img/game/controls/go.png');
-	game.load.image('button_back', './img/game/controls/back.png');
+	game.load.spritesheet('button_go', './img/game/controls/go.png',120,68);
+	game.load.spritesheet('button_back', './img/game/controls/back.png');
 	game.load.image('ramp', './img/game/stuff/ramp.png');
 	game.load.image('lava', './img/game/stuff/lava.png');
 	game.load.image('barnyard', './img/game/stuff/barnyard.png');
