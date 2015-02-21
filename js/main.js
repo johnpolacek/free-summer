@@ -8,6 +8,7 @@ var game, cursor, i,
 	constraintsArray = [],
 	isAccelerating = false,
 	isBraking = false,
+	isWrecked = false,
 	maxVelocity = 40,minVelocity = -5;
 	w = window.innerWidth,
 	h = window.innerHeight;
@@ -48,6 +49,7 @@ function initPhaserP2() {
 	game.load.crossOrigin = true;
 	game.load.image('pixel', './img/game/pixel.png');
 	game.load.image('car_body', './img/game/car/car_body.png');
+	game.load.image('car_body_explosion', './img/game/car/car_body_explosion.png');
 	game.load.image('wheel_back', './img/game/car/wheel_back.png');
 	game.load.image('wheel_front', './img/game/car/wheel_front.png');
 	game.load.spritesheet('button_go', './img/game/controls/go.png',120,68);
@@ -212,16 +214,22 @@ function addCar() {
 function updateCar() {
 	game.physics.p2.walls.bottom.velocity[0] = wheel_back.body.angularVelocity+(carBody.position.x-(w/2-w/4+100))/1000;
 	
-	if ((cursors.left.isDown || isBraking) && wheel_back.body.angularVelocity > minVelocity) {
-		wheel_back.body.angularVelocity += -1;
-		wheel_front.body.angularVelocity += -1;
-		game.physics.p2.walls.bottom.velocity[0] = wheel_back.body.angularVelocity+(carBody.position.x-(w/2-w/4+100))/50;
-	}
-	
-	if ((cursors.right.isDown || isAccelerating) && wheel_back.body.angularVelocity < maxVelocity) {
-		wheel_back.body.angularVelocity += 1;
-		wheel_front.body.angularVelocity += 1;
-		game.physics.p2.walls.bottom.velocity[0] = wheel_back.body.angularVelocity+(carBody.position.x-(w/2-w/4))/50;
+	if (isWrecked) {
+		wheel_back.body.angularVelocity = 0;
+		wheel_front.body.angularVelocity = 0;
+		game.physics.p2.walls.bottom.velocity[0] = 0;
+	} else {
+		if ((cursors.left.isDown || isBraking) && wheel_back.body.angularVelocity > minVelocity) {
+			wheel_back.body.angularVelocity += -1;
+			wheel_front.body.angularVelocity += -1;
+			game.physics.p2.walls.bottom.velocity[0] = wheel_back.body.angularVelocity+(carBody.position.x-(w/2-w/4+100))/50;
+		}
+		
+		if ((cursors.right.isDown || isAccelerating) && wheel_back.body.angularVelocity < maxVelocity) {
+			wheel_back.body.angularVelocity += 1;
+			wheel_front.body.angularVelocity += 1;
+			game.physics.p2.walls.bottom.velocity[0] = wheel_back.body.angularVelocity+(carBody.position.x-(w/2-w/4))/50;
+		}
 	}
 }
 
@@ -291,11 +299,17 @@ function addObstacles(){
 
 	contactMaterial1.friction = 0.5;
 	contactMaterial2.friction = 0.5; // Friction to use in the contact of these two materials.
+
+	lava.body.onBeginContact.add(function() {
+		carBody.loadTexture('car_body_explosion');
+		carBody.body.mass = 5;
+		isWrecked = true;
+	}, this);
 }
 
 function getLavaPolygon() {
-	var randomW = 200 + Math.ceil(Math.random()*200);
-	return [[1580,h],[1580+randomW,h],[1580+randomW,h-40],[1580+(randomW*0.875),h-5],[1580+(randomW*0.75),h-60],[1580+(randomW*0.625),h-5],[1580+(randomW*0.5),h-60],[1580+(randomW*0.325),h-5],[1580+(randomW*0.25),h-60],[1580+(randomW*0.125),h-5],[1580,h-40]];
+	var randomW = 150 + Math.ceil(Math.random()*200);
+	return [[1580,h],[1580+randomW,h],[1580+randomW,h-30],[1580+(randomW*0.875),h-5],[1580+(randomW*0.75),h-50],[1580+(randomW*0.625),h-5],[1580+(randomW*0.5),h-50],[1580+(randomW*0.325),h-5],[1580+(randomW*0.25),h-50],[1580+(randomW*0.125),h-5],[1580,h-30]];
 }
 
 function updateObstacles() {
@@ -310,7 +324,7 @@ function updateObstacles() {
 			barnyard.destroy();
 			barnyard = false;
 		}
-		var jumpY = (h-Math.ceil((Math.random()*40-20)));
+		var jumpY = (h-Math.ceil((Math.random()*20-10)));
 		jump.body.reset(w+200,jumpY);
 		lava.body.reset(w+440,(jumpY));
 	}

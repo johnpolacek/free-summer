@@ -98,3 +98,4 @@ Worked on animating the car and separating it into pieces in Photoshop.
 As boys do, Jack lost interest in the game for awhile. He was very occupied with Minecraft, Chess, Minecraft, playing in the snow, Minecraft, watching superhero movies, Minecraft, playing with his brother, Minecraft and Minecraft. This morning though, he suddenly remembered the game and it became supremely important to add hot lava to the game.
 
 - **Step 18** - Add lava
+- **Step 19** - Add explosion
