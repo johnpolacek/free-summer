@@ -90,3 +90,9 @@ Worked on animating the car and separating it into pieces in Photoshop.
 - **Step 15** - Open source [on Github](https://github.com/johnpolacek/free-summer)
 - **Step 16** - Add Jack’s ramp graphic
 - **Step 17** - Add barnyard background
+
+--
+As boys do, Jack lost interest in the game for awhile. He was very occupied with Minecraft, Chess, Minecraft, playing in the snow, Minecraft, watching superhero movies, Minecraft, playing with his brother, Minecraft and Minecraft. This morning though, he suddenly remembered the game and it became supremely important to add hot lava to the game.
+
+###*2-21-14*
+- **Step 18** - Add lava

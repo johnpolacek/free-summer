@@ -1,7 +1,7 @@
 // Source code from: http://www.inkfood.com/create-a-car-with-phaser/
 
 var game, cursor, i,
-	groundGroup,CG_level,jump,
+	groundGroup,CG_level,jump,lava,
 	carBody,wheel_front,wheel_back,CG_car,
 	line,target,mousePointer,mouseConstraint,
 	springsArray  = [],
@@ -17,7 +17,7 @@ function init(){
 }
 
 function preload() {
-	initPhaserP2_debug();
+	initPhaserP2();
 }
 
 function create() {
@@ -39,15 +39,12 @@ function create() {
 }
 
 function update() {
-	updatePhaserP2_debug();
+	updatePhaserP2();
 	updateCar();
-	updateJump();
+	updateObstacles();
 }
 
-//PHASER P2 DEBUG
-//#VERSION 0.1
-
-function initPhaserP2_debug() {
+function initPhaserP2() {
 	game.load.crossOrigin = true;
 	game.load.image('pixel', './img/game/pixel.png');
 	game.load.image('car_body', './img/game/car/car_body.png');
@@ -56,6 +53,7 @@ function initPhaserP2_debug() {
 	game.load.image('button_go', './img/game/controls/go.png');
 	game.load.image('button_back', './img/game/controls/back.png');
 	game.load.image('ramp', './img/game/stuff/ramp.png');
+	game.load.image('lava', './img/game/stuff/lava.png');
 	game.load.image('barnyard', './img/game/stuff/barnyard.png');
 	
 	line = new Phaser.Line(0, 0, 200, 200);
@@ -88,7 +86,7 @@ function stopDrag(pointer) {
 	game.physics.p2.removeConstraint(mouseConstraint);
 }
 
-function addPhaserP2_debug(P2_object,type) {
+function addPhaserP2(P2_object,type) {
 	var point_A,point_B;
 
 	if(type == "spring") {
@@ -125,7 +123,7 @@ function addPhaserP2_debug(P2_object,type) {
 	}
 }
 
-function updatePhaserP2_debug() {
+function updatePhaserP2() {
 	var point_A, point_B;
 	for (i = 0; i < springsArray.length; i++) {
 		point_A = {x:springsArray[i][2].world.x, y:springsArray[i][2].world.y};
@@ -190,19 +188,19 @@ function addCar() {
 	
 	// Spring(world, bodyA, bodyB, restLength, stiffness, damping, worldA, worldB, localA, localB)
 	var spring = game.physics.p2.createSpring(carBody,wheel_front, 70, 150, 50,null,null,[10,0],null);
-	addPhaserP2_debug(spring,"spring");
+	addPhaserP2(spring,"spring");
 	
 	var spring_1 = game.physics.p2.createSpring(carBody,wheel_back, 70, 150,50,null,null,[-10,0],null);
-	addPhaserP2_debug(spring_1,"spring");
+	addPhaserP2(spring_1,"spring");
 		
 	var constraint = game.physics.p2.createPrismaticConstraint(carBody,wheel_front, false,[50,0],[0,0],[0,1]);
-	addPhaserP2_debug(constraint,"prismaticConstraint");
+	addPhaserP2(constraint,"prismaticConstraint");
 	constraint.lowerLimitEnabled=constraint.upperLimitEnabled = true;
 	constraint.upperLimit = -1;
 	constraint.lowerLimit = -8;
 	
 	var constraint_1 = game.physics.p2.createPrismaticConstraint(carBody,wheel_back, false,[-50,0],[0,0],[0,1]);
-	addPhaserP2_debug(constraint_1,"prismaticConstraint");
+	addPhaserP2(constraint_1,"prismaticConstraint");
 	constraint_1.lowerLimitEnabled=constraint_1.upperLimitEnabled = true;
 	constraint_1.upperLimit = -1;
 	constraint_1.lowerLimit = -8;
@@ -227,17 +225,18 @@ function updateCar() {
 function initLevel() {
 	addBackground();
 	groundGroup = game.add.group();
-	addJump();
+	addObstacles();
 	addControls();
+	wheel_front.parent.bringToTop(wheel_front);
+	wheel_back.parent.bringToTop(wheel_back);
+	carBody.parent.bringToTop(carBody);
 }
 
 function addBackground() {
 	barnyard = game.add.sprite(w - 640, h-263,'barnyard');
 }
 
-function addJump(){
-	var groundSegment = [[300,h],[500,h],[700,h-50]];
-	
+function addObstacles(){
 	CG_level = game.physics.p2.createCollisionGroup(); //CAR GROUP
 	
 	game.physics.p2.updateBoundsCollisionGroup(); //UPDATE COLLISION BOUND FOR GROUPS
@@ -248,7 +247,7 @@ function addJump(){
 	
 	jump.body.clearShapes();
 	jump.body.mass = 10;
-	jump.body.addPolygon({}, groundSegment);
+	jump.body.addPolygon({}, [[1300,h],[1580,h],[1580,h-50]]);
 	jump.body.kinematic = true;
 	jump.body.setCollisionGroup(CG_level);
 	jump.body.fixedRotation = true;
@@ -257,6 +256,22 @@ function addJump(){
 	jump.body.collideWorldBounds = false;
 	jump.loadTexture('ramp');
 	jump.body.debug = false;
+
+	lava = groundGroup.create(0,0);
+	
+	game.physics.p2.enable(lava,true, true);
+	lava.body.clearShapes();
+	lava.body.mass = 10;
+	lava.body.addPolygon({}, getLavaPolygon());
+	lava.body.kinematic = true;
+	lava.body.setCollisionGroup(CG_level);
+	lava.body.fixedRotation = true;
+	lava.body.data.gravityScale = 0;
+	lava.body.collides(CG_car);
+	lava.body.collideWorldBounds = false;
+	lava.loadTexture('lava');
+	lava.anchor.setTo(0.5, .9);
+	lava.body.debug = true;
 	
 	wheel_front.body.collides(CG_level);
 	wheel_back.body.collides(CG_level);
@@ -265,59 +280,40 @@ function addJump(){
 	var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', wheel_front.body);
 	wheel_back.body.setMaterial(spriteMaterial);
 		
-	var worldMaterial = game.physics.p2.createMaterial('worldMaterial',jump.body);
-	var contactMaterial = game.physics.p2.createContactMaterial(spriteMaterial, worldMaterial);
+	var worldMaterial1 = game.physics.p2.createMaterial('worldMaterial',jump.body),
+		worldMaterial2 = game.physics.p2.createMaterial('worldMaterial',lava.body),
+		contactMaterial1 = game.physics.p2.createContactMaterial(spriteMaterial, worldMaterial1),
+		contactMaterial2 = game.physics.p2.createContactMaterial(spriteMaterial, worldMaterial2);
 
-	contactMaterial.friction = 0.5; // Friction to use in the contact of these two materials.
+	contactMaterial1.friction = 0.5;
+	contactMaterial2.friction = 0.5; // Friction to use in the contact of these two materials.
 }
 
-function addJump(){
-	var groundSegment = [[300,h],[500,h],[700,h-50]];
-	
-	CG_level = game.physics.p2.createCollisionGroup(); //CAR GROUP
-	
-	game.physics.p2.updateBoundsCollisionGroup(); //UPDATE COLLISION BOUND FOR GROUPS
-	
-	jump = groundGroup.create(0,0);
-	jump.anchor.setTo(0.5, 0.5);
-	game.physics.p2.enable(jump,true, true);
-	
-	jump.body.clearShapes();
-	jump.body.mass = 10;
-	jump.body.addPolygon({}, groundSegment);
-	jump.body.kinematic = true;
-	jump.body.setCollisionGroup(CG_level);
-	jump.body.fixedRotation = true;
-	jump.body.data.gravityScale = 0;
-	jump.body.collides(CG_car);
-	jump.body.collideWorldBounds = false;
-	jump.loadTexture('ramp');
-	jump.body.debug = false;
-	
-	wheel_front.body.collides(CG_level);
-	wheel_back.body.collides(CG_level);
-	carBody.body.collides(CG_level);
-	
-	var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', wheel_front.body);
-	wheel_back.body.setMaterial(spriteMaterial);
-		
-	var worldMaterial = game.physics.p2.createMaterial('worldMaterial',jump.body);
-	var contactMaterial = game.physics.p2.createContactMaterial(spriteMaterial, worldMaterial);
-
-	contactMaterial.friction = 0.5; // Friction to use in the contact of these two materials.
+function getLavaPolygon() {
+	var randomW = 200 + Math.ceil(Math.random()*200);
+	return [[1580,h],[1580+randomW,h],[1580+randomW,h-40],[1580+(randomW*0.875),h-5],[1580+(randomW*0.75),h-60],[1580+(randomW*0.625),h-5],[1580+(randomW*0.5),h-60],[1580+(randomW*0.325),h-5],[1580+(randomW*0.25),h-60],[1580+(randomW*0.125),h-5],[1580,h-40]];
 }
 
-function updateJump() {
+function updateObstacles() {
 	jump.body.velocity.y = 0;
 	jump.body.velocity.x = wheel_back.body.angularVelocity*-10;
+	lava.body.velocity.y = 0;
+	lava.body.velocity.x = wheel_back.body.angularVelocity*-10;
+	if (barnyard) barnyard.position.x = jump.position.x - 1200;
 	
-	if(jump.position.x < -w/2) {
-		jump.body.reset(w+200,(h-(Math.random()*40-20)));
+	if(lava.position.x < -w/2) {
+		if (barnyard) {
+			barnyard.destroy();
+			barnyard = false;
+		}
+		var jumpY = (h-Math.ceil((Math.random()*40-20)));
+		jump.body.reset(w+200,jumpY);
+		lava.body.reset(w+440,(jumpY));
 	}
 }
 
 function addControls() {
-	goButton = game.add.button(w-140, h-80, 'button_go', onGo, this, 2, 1, 0);
+	goButton = game.add.button(w-140, h-100, 'button_go', onGo, this, 2, 1, 0);
 	goButton.onInputDown.add(onGo, this);
 	goButton.onInputUp.add(onGoComplete, this);
 	backButton = game.add.button(w-250, h-65, 'button_back', onBack, this, 2, 1, 0);
