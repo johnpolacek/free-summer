@@ -271,7 +271,7 @@ function addObstacles(){
 	lava.body.collideWorldBounds = false;
 	lava.loadTexture('lava');
 	lava.anchor.setTo(0.5, .9);
-	lava.body.debug = true;
+	lava.body.debug = false;
 	
 	wheel_front.body.collides(CG_level);
 	wheel_back.body.collides(CG_level);
