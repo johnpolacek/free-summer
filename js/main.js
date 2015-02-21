@@ -89,13 +89,15 @@ function stopDrag(pointer) {
 }
 
 function addPhaserP2_debug(P2_object,type) {
+	var point_A,point_B;
+
 	if(type == "spring") {
 		var springSprite = game.add.tileSprite(0, 0, 24, (P2_object.restLength * 20));
 		springSprite.anchor.setTo(0.5, 0);
 		springSprite.rest = 0;
 		
-		var point_A = game.add.sprite((P2_object.localAnchorA[0]*20), (P2_object.localAnchorA[1]*20)); //DUMMY
-		var point_B = game.add.sprite((P2_object.localAnchorB[0]*20), (P2_object.localAnchorB[1]*20)); //DUMMY
+		point_A = game.add.sprite((P2_object.localAnchorA[0]*20), (P2_object.localAnchorA[1]*20)); //DUMMY
+		point_B = game.add.sprite((P2_object.localAnchorB[0]*20), (P2_object.localAnchorB[1]*20)); //DUMMY
 		
 		P2_object.bodyA.parent.sprite.addChild(point_A);
 		P2_object.bodyB.parent.sprite.addChild(point_B);
@@ -108,7 +110,7 @@ function addPhaserP2_debug(P2_object,type) {
 	}
 	
 	if(type == "prismaticConstraint") {
-		var constraintSprite = game.add.sprite(0, 0, 'pixel'),
+		var constraintSprite = game.add.sprite(0, 0, 'pixel');
 			point_A = game.add.sprite((P2_object.localAnchorA[0]*20)*-1, (P2_object.localAnchorA[1]*20)*-1), //DUMMY
 			point_B = game.add.sprite((P2_object.localAnchorB[0]*20)*-1, (P2_object.localAnchorB[1]*20)*-1); //DUMMY
 		
@@ -124,9 +126,10 @@ function addPhaserP2_debug(P2_object,type) {
 }
 
 function updatePhaserP2_debug() {
+	var point_A, point_B;
 	for (i = 0; i < springsArray.length; i++) {
-		var point_A = {x:springsArray[i][2].world.x, y:springsArray[i][2].world.y};
-		var point_B = {x:springsArray[i][3].world.x, y:springsArray[i][3].world.y};
+		point_A = {x:springsArray[i][2].world.x, y:springsArray[i][2].world.y};
+		point_B = {x:springsArray[i][3].world.x, y:springsArray[i][3].world.y};
 		
 		line.setTo(point_A.x,point_A.y,point_B.x,point_B.y);
 		
@@ -137,8 +140,8 @@ function updatePhaserP2_debug() {
 	}
 	
 	for (i = 0; i < constraintsArray.length; i++) {
-		var point_A = {x:constraintsArray[i][2].world.x, y:constraintsArray[i][2].world.y};
-		var point_B = {x:constraintsArray[i][3].world.x, y:constraintsArray[i][3].world.y};
+		point_A = {x:constraintsArray[i][2].world.x, y:constraintsArray[i][2].world.y};
+		point_B = {x:constraintsArray[i][3].world.x, y:constraintsArray[i][3].world.y};
 		
 		line.setTo(point_A.x,point_A.y,point_B.x,point_B.y);
 	
@@ -230,6 +233,42 @@ function initLevel() {
 
 function addBackground() {
 	barnyard = game.add.sprite(w - 640, h-263,'barnyard');
+}
+
+function addJump(){
+	var groundSegment = [[300,h],[500,h],[700,h-50]];
+	
+	CG_level = game.physics.p2.createCollisionGroup(); //CAR GROUP
+	
+	game.physics.p2.updateBoundsCollisionGroup(); //UPDATE COLLISION BOUND FOR GROUPS
+	
+	jump = groundGroup.create(0,0);
+	jump.anchor.setTo(0.5, 0.5);
+	game.physics.p2.enable(jump,true, true);
+	
+	jump.body.clearShapes();
+	jump.body.mass = 10;
+	jump.body.addPolygon({}, groundSegment);
+	jump.body.kinematic = true;
+	jump.body.setCollisionGroup(CG_level);
+	jump.body.fixedRotation = true;
+	jump.body.data.gravityScale = 0;
+	jump.body.collides(CG_car);
+	jump.body.collideWorldBounds = false;
+	jump.loadTexture('ramp');
+	jump.body.debug = false;
+	
+	wheel_front.body.collides(CG_level);
+	wheel_back.body.collides(CG_level);
+	carBody.body.collides(CG_level);
+	
+	var spriteMaterial = game.physics.p2.createMaterial('spriteMaterial', wheel_front.body);
+	wheel_back.body.setMaterial(spriteMaterial);
+		
+	var worldMaterial = game.physics.p2.createMaterial('worldMaterial',jump.body);
+	var contactMaterial = game.physics.p2.createContactMaterial(spriteMaterial, worldMaterial);
+
+	contactMaterial.friction = 0.5; // Friction to use in the contact of these two materials.
 }
 
 function addJump(){
