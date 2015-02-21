@@ -251,22 +251,6 @@ function addObstacles(){
 	CG_level = game.physics.p2.createCollisionGroup(); //CAR GROUP
 	
 	game.physics.p2.updateBoundsCollisionGroup(); //UPDATE COLLISION BOUND FOR GROUPS
-	
-	jump = groundGroup.create(0,0);
-	jump.anchor.setTo(0.5, 0.5);
-	game.physics.p2.enable(jump,true, true);
-	
-	jump.body.clearShapes();
-	jump.body.mass = 10;
-	jump.body.addPolygon({}, [[1300,h],[1580,h],[1580,h-50]]);
-	jump.body.kinematic = true;
-	jump.body.setCollisionGroup(CG_level);
-	jump.body.fixedRotation = true;
-	jump.body.data.gravityScale = 0;
-	jump.body.collides(CG_car);
-	jump.body.collideWorldBounds = false;
-	jump.loadTexture('ramp');
-	jump.body.debug = false;
 
 	lava = groundGroup.create(0,0);
 	lava.anchor.setTo(0.5, 0.5);
@@ -284,6 +268,22 @@ function addObstacles(){
 	lava.loadTexture('lava');
 	lava.anchor.setTo(0.5, 0.9);
 	lava.body.debug = false;
+	
+	jump = groundGroup.create(0,0);
+	jump.anchor.setTo(0.5, 0.5);
+	game.physics.p2.enable(jump,true, true);
+	
+	jump.body.clearShapes();
+	jump.body.mass = 10;
+	jump.body.addPolygon({}, [[1300,h],[1580,h],[1580,h-50]]);
+	jump.body.kinematic = true;
+	jump.body.setCollisionGroup(CG_level);
+	jump.body.fixedRotation = true;
+	jump.body.data.gravityScale = 0;
+	jump.body.collides(CG_car);
+	jump.body.collideWorldBounds = false;
+	jump.loadTexture('ramp');
+	jump.body.debug = false;
 	
 	wheel_front.body.collides(CG_level);
 	wheel_back.body.collides(CG_level);
