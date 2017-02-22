@@ -99,3 +99,10 @@ Worked on animating the car and separating it into pieces in Photoshop.
 
 - **Step 18** - Add lava
 - **Step 19** - Add explosion
+
+--
+
+###*2-21-17*
+Jack and his little brother Grant were talking about types of jobs. They talked about being a programmer like me and we remembered our old game we made together. We started playing it a little and Jack wanted to add a restart button, so we did.
+
+- **Step 20** - Add restart button

@@ -57,6 +57,7 @@ function initPhaserP2() {
 	game.load.image('ramp', './img/game/stuff/ramp.png');
 	game.load.image('lava', './img/game/stuff/lava.png');
 	game.load.image('barnyard', './img/game/stuff/barnyard.png');
+	game.load.spritesheet('button_restart', './img/game/controls/restart.png');
 	
 	line = new Phaser.Line(0, 0, 200, 200);
 	
@@ -304,7 +305,13 @@ function addObstacles(){
 		carBody.loadTexture('car_body_explosion');
 		carBody.body.mass = 5;
 		isWrecked = true;
+		restartButton = game.add.button(140, 100, 'button_restart', onRestart, this, 2, 1, 0);
+		restartButton.onInputDown.add(onRestart, this);
 	}, this);
+}
+
+function onRestart() {
+	window.location.reload();
 }
 
 function getLavaPolygon() {
